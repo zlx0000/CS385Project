@@ -40,7 +40,7 @@ function App() {
 
   return (
     <>
-      <h1>Parent component CS385 Spotify Search</h1>
+      <h1>CS385 Demo</h1>
       <p>Your current search term is [{searchTerm}]</p>
       <form>
         <h3>Type your search here: </h3>
@@ -49,7 +49,7 @@ function App() {
       <hr />
       <ResultsComponent
         searchTermFromParent={searchTerm}
-        spotifyArrayFromParent={items}
+        arrayFromParent={items}
       />
     </>
   );
@@ -65,21 +65,20 @@ function ResultsComponent(props) {
   // the search of the array of JSON objects.
 
   function filterFunction(searchTerm) {
-    return function (spotifyObject) {
+    return function (items) {
       // convert everything to lower case for string matching
-      let artist = spotifyObject.artist.toLowerCase();
-      let track = spotifyObject.track.toLowerCase();
+      let itemName = items.item.itemName.toLowerCase();
+//      let itemType = items.item.itemType.toLowerCase();
       return (
         searchTerm !== "" &&
-        (track.includes(searchTerm.toLowerCase()) ||
-          artist.includes(searchTerm.toLowerCase()))
+        (itemName.includes(searchTerm.toLowerCase()))
       );
     };
   }
   // We can use the filter function to tell us how many search results
   // we have. We find the length of the filtered array
 
-  let numberResults = props.spotifyArrayFromParent.filter(
+  let numberResults = props.arrayFromParent.filter(
     filterFunction(props.searchTermFromParent)
   ).length;
 
@@ -90,12 +89,11 @@ function ResultsComponent(props) {
       {numberResults === 0 && <p>No results</p>}
       {numberResults > 0 && numberResults < 10 && <p>Some results, not many</p>}
       {numberResults > 10 && <p>Lots of results</p>}
-      {props.spotifyArrayFromParent
+      {props.arrayFromParent
         .filter(filterFunction(props.searchTermFromParent))
         .map((a, index) => (
           <p key={index}>
-            <b>{a.artist}</b>, <i>{a.track}</i> Streams: {a.streams}{" "}
-            {writeNumberAsWords(a.streams)}
+            Name:<b>{a.item.itemName}</b>, Type:<i>{a.item.itemType.supClass}</i>, Owner:{a.owner.ownerName}{" "}
           </p>
         ))}
     </>
