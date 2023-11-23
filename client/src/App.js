@@ -82,7 +82,7 @@ function ResultsComponent(props) {
 
   return (
     <>
-      <h1>Child Component: Search Results</h1>
+      <h1>Search Results</h1>
       <h2>There are {numberResults} search results </h2>
       {numberResults === 0 && <p>No results</p>}
       {numberResults > 0 && numberResults < 10 && <p>Some results, not many</p>}
