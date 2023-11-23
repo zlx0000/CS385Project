@@ -29,7 +29,7 @@ function App() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const URL = "";
+    const URL = "http://45.77.38.37";
 
     async function fetchitemData() {
       try {
@@ -38,7 +38,7 @@ function App() {
         setLoading(true);
         // IMPORTANT - look at the JSON response - look at the structure
         // This is where many errors occur!
-        setData(itemDataJson.trainService);
+        setData(itemDataJson);
       } catch (error) {
         setError(error); // take the error message from the system
         setLoading(false);
