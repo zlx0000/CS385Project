@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { items } from "./items";
+import React, { useEffect, useState } from "react";
 
 // Writing our own functions for use in our app
 // Writing a comment about a specific number.
@@ -25,7 +24,49 @@ function App() {
   // lets keep the searchTerm as a state varaiable
   // searchTerm is given an initial value of empty string
   const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const URL = "";
+
+    async function fetchitemData() {
+      try {
+        const response = await fetch(URL);
+        const itemDataJson = await response.json(); // wait for the JSON response
+        setLoading(true);
+        // IMPORTANT - look at the JSON response - look at the structure
+        // This is where many errors occur!
+        setData(itemDataJson.trainService);
+      } catch (error) {
+        setError(error); // take the error message from the system
+        setLoading(false);
+      } // end try-catch block
+    } // end of fetchData
+    fetchitemData();
+  }, []);
+  if (error) {
+    return <h1>Opps! An error has occurred: {error.toString()}</h1>;
+  } else if (loading === false) {
+    return <h1>Waiting for the train data ...... waiting....</h1>;
+  } else {
+    return (
+      <>
+        <h1>CS385 Demo</h1>
+        <p>Your current search term is [{searchTerm}]</p>
+        <form>
+          <h3>Type your search here: </h3>
+          <input onChange={onSearchFormChange} type="text" />
+        </form>
+        <hr />
+        <ResultsComponent
+          searchTermFromParent={searchTerm}
+          arrayFromParent={data}
+        />
+      </>
+    );
+  }
   // Here is our textbox handler function.
   // This handles the event that is fired when
   // the search form (text box) changes
@@ -35,22 +76,6 @@ function App() {
     // the current value in the textbox to searchTerm
     setSearchTerm(event.target.value);
   }
-
-  return (
-    <>
-      <h1>CS385 Demo</h1>
-      <p>Your current search term is [{searchTerm}]</p>
-      <form>
-        <h3>Type your search here: </h3>
-        <input onChange={onSearchFormChange} type="text" />
-      </form>
-      <hr />
-      <ResultsComponent
-        searchTermFromParent={searchTerm}
-        arrayFromParent={items}
-      />
-    </>
-  );
 }
 
 // This is the child component. It is used to display the results
@@ -63,9 +88,9 @@ function ResultsComponent(props) {
   // the search of the array of JSON objects.
 
   function filterFunction(searchTerm) {
-    return function (items) {
+    return function (data) {
       // convert everything to lower case for string matching
-      let itemName = items.item.itemName.toLowerCase();
+      let itemName = data.item_name.toLowerCase();
 //      let itemType = items.item.itemType.toLowerCase();
       return (
         searchTerm !== "" &&
@@ -91,7 +116,7 @@ function ResultsComponent(props) {
         .filter(filterFunction(props.searchTermFromParent))
         .map((a, index) => (
           <p key={index}>
-            Name:<b>{a.item.itemName}</b>, Type:<i>{a.item.itemType.supClass}</i>, Owner:{a.owner.ownerName}{" "}
+            Name:<b>{a.item_name}</b>, Type:<i>{a.item_type}</i>, Price:{a.item_price}{" "}
           </p>
         ))}
     </>
