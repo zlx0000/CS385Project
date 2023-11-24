@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 // Writing our own functions for use in our app
 // Writing a comment about a specific number.
+/*
 function writeNumberAsWords(n) {
   let nAsStr = n.toString(10); // our number is in base 10
   let digits = nAsStr.length; // number of digits
@@ -18,6 +19,7 @@ function writeNumberAsWords(n) {
 
   return message;
 }
+*/
 
 // Parent component - App
 function App() {
