@@ -92,7 +92,7 @@ function ResultsComponent(props) {
   function filterFunction(searchTerm) {
     return function (data) {
       // convert everything to lower case for string matching
-      let itemName = data.item_name.toLowerCase();
+      let itemName = data.itemname.toLowerCase();
 //      let itemType = items.item.itemType.toLowerCase();
       return (
         searchTerm !== "" &&
@@ -118,7 +118,7 @@ function ResultsComponent(props) {
         .filter(filterFunction(props.searchTermFromParent))
         .map((a, index) => (
           <p key={index}>
-            Name:<b>{a.item_name}</b>, Type:<i>{a.item_type}</i>, Price:{a.item_price}{" "}
+            Name:<b>{a.itemname}</b>, Type:<i>{a.category}</i>, Price:{a.price}{" "}
           </p>
         ))}
     </>
