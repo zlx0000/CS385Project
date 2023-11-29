@@ -30,6 +30,35 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  function getItem() {
+    fetch('http://45.77.38.37')
+      .then(response => {
+        return response.text();
+      })
+      .then(data => {
+        setData(data);
+      });
+  }
+
+  function createItem() {
+    let itemname = "";
+    let email = "";
+    fetch('http://45.77.38.37/itemdata', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({itemname, email}),
+    })
+      .then(response => {
+        return response.text();
+      })
+      .then(data => {
+        alert(data);
+        //getItem();
+      });
+  }
+
   useEffect(() => {
     const URL = "http://45.77.38.37";
 
