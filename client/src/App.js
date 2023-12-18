@@ -29,6 +29,7 @@ function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  //createItem();
 
   function getItem() {
     fetch('http://45.77.38.37')
@@ -40,15 +41,24 @@ function App() {
       });
   }
 
-  function createItem() {
-    let itemname = "";
-    let email = "";
+  function createItem(props) {
+
+    let itemname = "test";
+    let itemtype = "test";
+    let itemprice = 1;
+    let ownerid = 9999;
+    let ownerfirstname = "test";
+    let ownerlastname = "test";
+    let phonenumber = "00000000";
+    let address = "XXX XXXX";
+    let itemcondition = "new"
+
     fetch('http://45.77.38.37/itemdata', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({itemname, email}),
+      body: JSON.stringify({itemname,itemtype,itemprice,ownerid,ownerfirstname,ownerlastname,phonenumber,address,itemcondition}),
     })
       .then(response => {
         return response.text();
