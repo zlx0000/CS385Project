@@ -5,6 +5,7 @@ import Home from './Pages/Home';
 import Search from './Pages/Search';
 import Layout from './Pages/Layout';
 import Release from './Pages/Release';
+import AboutUs from './Pages/AboutUs';
 // import Search from './Pages/Search'
 
 export default function App() {
@@ -15,7 +16,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="search" element={<Search/>} />
           <Route path="release" element={<Release/>} />
-          {/* <Route path="contact" element={<Contact />} /> */}
+          <Route path="aboutus" element={<AboutUs />} />
           {/* <Route path="*" element={<NoPage />} /> */}
         </Route>
       </Routes>

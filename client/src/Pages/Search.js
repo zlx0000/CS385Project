@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Basket from "../Components/Basket";
+import ResultsComponent from "../Components/ResultsComponent";
+import '../Style/Search.css'
 
 
 // Parent component - App
@@ -63,8 +66,8 @@ function Search() {
   } else {
     return (
       <>
-        <h1>This is the Search Page</h1>
-        <p>Your current search term is [{searchTerm}]</p>
+        <h1>This is the Store Search Page</h1>
+        {/* <p>Your current search term is [{searchTerm}]</p> */}
         <form>
           <h4>Type your search here: </h4>
           <input onChange={onSearchFormChange} type="text" />
@@ -86,108 +89,8 @@ function Search() {
   
 }
 
-function ResultsComponent(props) {
-
-  function filterFunction(searchTerm) {
-    return function (data) {
-      // convert everything to lower case for string matching
-      let itemName = data.itemname.toLowerCase();
-      // let itemName = data.itemname;
-
-    //  let itemType = data.itemType.toLowerCase();
-      return (
-        searchTerm !== "" &&
-        // (itemName.includes(searchTerm))
-        (itemName.includes(searchTerm.toLowerCase()))
-
-      );
-    };
-  }
 
 
-  let numberResults = props.arrayFromParent.filter(
-    filterFunction(props.searchTermFromParent)
-  ).length;
 
-  return (
-    <>
-      <h1>You are looking for</h1>
-      <div class= "container-fluid">
-        <div class= "table-responsive">
-      <h2>There are {numberResults} search results </h2>
-      {numberResults === 0 && <p>No results</p>}
-      {numberResults > 0 && numberResults < 10 && <p>Some results, not many</p>}
-      {numberResults > 10 && <p>Lots of results</p>}
-      
-      <table class = "table table-striped table-hover table-bordered">
-        <thead class="table-dark">
-          <tr class="lead">
-            <th>ItemName</th>
-            <th>ItemType</th>
-            <th>ItemPrice(€)</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-      {props.arrayFromParent.filter(filterFunction(props.searchTermFromParent)).map((a, index) => (
-          <tr key={index}>
-            <td>
-              <b>{a.itemname}</b>
-            </td>
-            <td>
-              <b>{a.itemtype}</b>
-            </td>
-            <td>
-              <b>{a.itemprice}  <button type="button" class="btn btn-secondary btn-sm" onClick={()=>props.addItemToBasket(a)}>Add to basket</button></b>
-            </td>
-          </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
-      
-      </div>
-    </>
-  );
-}// end of child component for results.
-
-function Basket(props) {
-  function getBasketTotal(acc, obj) {
-    return acc + obj.itemprice;
-  }
-
-  const handleButtonClick = () => {
-    alert("Submitted successfully");
-  };
-  return (
-    <>
-      <div class="alert alert-secondary" role="alert">
-        <h3>Your secondhand shopping basket</h3>
-        {/* <img alt="secondhand shopping basket" class="img-fluid" src={basketPicture} /> */}
-        <p>
-          Your basket has <b>{props.basket.length}</b> items
-        </p>
-        <p>
-          <b>Total cost: €{props.basket.reduce(getBasketTotal, 0)}</b>
-        </p>
-        {props.basket.sort(props.sorting).map((p, index) => (
-          <p key={index}>
-            {p.itemname},€{p.itemprice}{" "}
-            <button
-              class="btn btn-info"
-              onClick={() => props.removeItemFromBasket(p)}
-            >
-              Remove
-            </button>
-          </p>
-        ))}
-      </div>
-      <p>
-        <button class="btn btn-Success btn-lg" onClick={handleButtonClick}>
-          Submit
-        </button>
-      </p>
-    </>
-  );
-}
 
 export default Search;
